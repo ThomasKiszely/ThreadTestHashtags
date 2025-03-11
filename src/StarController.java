@@ -17,17 +17,18 @@ public class StarController implements Runnable {
     }
     synchronized public void addStars(){
         while(true){
+            synchronized(counter){
         for (int i = 1; i <= 60; i++) {
             System.out.print(star.getStar());
             counter.setCount(counter.getCount() + 1);
             if (i == 60) {
                 System.out.println(counter.getCount());
-                notify();
+                counter.notify();
                 try {
-                    Thread.sleep(200);
+                   counter.wait();
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
-                }
+                }}
             }
             }
         }
